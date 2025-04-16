@@ -19,6 +19,10 @@ if [[ $PYTHON_VERSION != *"3.10.14"* ]]; then
     exit 1
 fi
 
+uv pip install --prerelease=allow torch~=2.6.0 'torch_xla[tpu]~=2.6.0' -f https://storage.googleapis.com/libtpu-releases/index.html -f https://storage.googleapis.com/libtpu-wheels/index.html
+uv pip install -U --pre jax==0.4.38 jaxlib==0.4.38 libtpu==0.0.7.1 requests -f https://storage.googleapis.com/jax-releases/jax_nightly_releases.html -f https://storage.googleapis.com/jax-releases/libtpu_releases.html
+uv pip install 'torchax @ git+https://git@github.com/pytorch/xla.git#subdirectory=torchax'
+
 # Then:
 
 # On GPU:
