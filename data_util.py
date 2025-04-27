@@ -34,3 +34,16 @@ def download_dataset(split="test"):
   train_dataset = train_dataset.map(transform_example, num_proc=4, batched=True, writer_batch_size=4_000, load_from_cache_file=True)  # type: ignore
   return train_dataset, NUM_CLASSES
 
+
+def load_raw_dataset(split):
+  from datasets import load_dataset
+  dataset = load_dataset("flwrlabs/celeba", split=split, trust_remote_code=True, cache_dir='cache')
+  return dataset.with_format("torch")
+
+
+def download_dataset_preserve_labels():
+  train = load_raw_dataset("train")
+  test = load_raw_dataset("test")
+  valid = load_raw_dataset("valid")
+  
+  

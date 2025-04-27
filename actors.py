@@ -97,7 +97,7 @@ class BaseActor:
     grad_dict = self.get_grad_dict()
     return loss_float, grad_dict
 
-  def run_training_epoch(self, batch_size=512, training_split='test', run_validation=False, dataloader_seed=0):
+  def run_training_epoch(self, batch_size=512, training_split='test', shuffle=False, run_validation=False, dataloader_seed=0):
     import torch
     import numpy as np
     import random
@@ -107,18 +107,32 @@ class BaseActor:
     np.random.seed(dataloader_seed)
     random.seed(dataloader_seed)
     train_dataset, NUM_CLASSES = download_dataset(split=training_split)
-    train_loader = DataLoader(
-      train_dataset,  # type: ignore
-      batch_size=batch_size,
-      num_workers=8,
-      shuffle=True,
-      worker_init_fn=seed_worker,
-      in_order=True,
-      generator=torch.Generator(),
-      multiprocessing_context="spawn",
-      drop_last=True,
-      persistent_workers=False,
-    )
+    
+    if shuffle:
+      train_loader = DataLoader(
+        train_dataset,  # type: ignore
+        batch_size=batch_size,
+        num_workers=8,
+        shuffle=True,
+        worker_init_fn=seed_worker,
+        in_order=True,
+        generator=torch.Generator(),
+        multiprocessing_context="spawn",
+        drop_last=True,
+        persistent_workers=False,
+      )
+    else:
+      train_loader = DataLoader(
+        train_dataset,  # type: ignore
+        batch_size=batch_size,
+        num_workers=8,
+        shuffle=False,
+        worker_init_fn=seed_worker,
+        in_order=True,
+        multiprocessing_context="spawn",
+        drop_last=False,
+        persistent_workers=False,
+      )
 
     # Training pass
     self.model.train()
