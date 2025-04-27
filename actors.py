@@ -373,6 +373,6 @@ def reset_all_actors(gpu_actor, tpu_actor, actor_resetter):
   tpu_actor = get_tpu_actor()
   actor_resetter.reset_classifier_layers_to_identical_random(gpu_actor)
   actor_resetter.reset_classifier_layers_to_identical_random(tpu_actor)
+  from model_util import check_model_dicts_are_the_same
   check_model_dicts_are_the_same(gpu_actor, tpu_actor)
   return gpu_actor, tpu_actor
-
