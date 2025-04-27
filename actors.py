@@ -97,7 +97,7 @@ class BaseActor:
     grad_dict = self.get_grad_dict()
     return loss_float, grad_dict
 
-  def run_training_epoch(self, batch_size=512, training_split='test', dataloader_seed=0):
+  def run_training_epoch(self, batch_size=512, training_split='test', run_validation=False, dataloader_seed=0):
     import torch
     import numpy as np
     import random
@@ -132,6 +132,9 @@ class BaseActor:
       loss, _grad_dict = self.run_training_pass(images, labels)
       self.framework_post_hook()
       yield i, loss, labels_checksum
+    
+    if not run_validation:
+      return
 
     # Eval pass
     self.model.eval()
