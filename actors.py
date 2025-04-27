@@ -112,7 +112,7 @@ class BaseActor:
       train_loader = DataLoader(
         train_dataset,  # type: ignore
         batch_size=batch_size,
-        num_workers=8,
+        num_workers=10,
         shuffle=True,
         worker_init_fn=seed_worker,
         in_order=True,
@@ -125,7 +125,7 @@ class BaseActor:
       train_loader = DataLoader(
         train_dataset,  # type: ignore
         batch_size=batch_size,
-        num_workers=8,
+        num_workers=10,
         shuffle=False,
         worker_init_fn=seed_worker,
         in_order=True,
