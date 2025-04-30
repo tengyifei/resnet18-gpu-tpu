@@ -112,7 +112,8 @@ class BaseActor:
       train_dataset, test_dataset, NUM_CLASSES = download_dataset_custom_split_cached()
     else:
       train_dataset, NUM_CLASSES = download_dataset(split=training_split)
-    
+    assert self.model.fc.out_features == NUM_CLASSES, f"Model output features {self.model.fc.out_features} do not match dataset classes {NUM_CLASSES}"
+
     if shuffle:
       train_loader = DataLoader(
         train_dataset,  # type: ignore
