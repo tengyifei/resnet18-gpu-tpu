@@ -263,4 +263,6 @@ def download_dataset_custom_split_cached(seed=42):
             f.write("done")
             
         print("Datasets cached successfully.")
-        return train_dataset, test_dataset, NUM_CLASSES
+        
+        # Return the cached dataset
+        return download_dataset_custom_split_cached(seed)
