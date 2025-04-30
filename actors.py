@@ -106,7 +106,12 @@ class BaseActor:
     torch.manual_seed(dataloader_seed)
     np.random.seed(dataloader_seed)
     random.seed(dataloader_seed)
-    train_dataset, NUM_CLASSES = download_dataset(split=training_split)
+    from data_util import download_dataset_custom_split_cached
+    
+    if training_split == 'custom':
+      train_dataset, test_dataset, NUM_CLASSES = download_dataset_custom_split_cached()
+    else:
+      train_dataset, NUM_CLASSES = download_dataset(split=training_split)
     
     if shuffle:
       train_loader = DataLoader(
@@ -152,7 +157,10 @@ class BaseActor:
 
     # Eval pass
     self.model.eval()
-    valid_dataset, _ = download_dataset(split='valid')
+    if training_split == 'custom':
+      _, valid_dataset, NUM_CLASSES = download_dataset_custom_split_cached()
+    else:
+      valid_dataset, _ = download_dataset(split='valid')
     valid_loader = DataLoader(
       valid_dataset, # type: ignore
       batch_size=batch_size,
