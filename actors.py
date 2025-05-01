@@ -363,13 +363,13 @@ def get_torchax_actor():
 
 # This will reliably reset every actor to the same random state.
 class ActorResetter:
-  def __init__(self, gpu_actor, num_classes):
+  def __init__(self, gpu_actor, num_classes, seed=42):
     import numpy as np
     import torch
     import torch.nn as nn
     
-    np.random.seed(42)
-    torch.manual_seed(42)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
     
     num_ftrs: int = ray.get(gpu_actor.get_num_features.remote())
     self.num_ftrs = num_ftrs
